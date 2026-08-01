@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Images - ST STITCHES EMPIRE</title>
+</head>
+<body>
+    <h1>Manage Images</h1>
+    <a href="/admin/dashboard">Back to Dashboard</a>
+    <table border="1" cellpadding="6">
+        <tr><th>ID</th><th>Image</th><th>Title</th><th>Category</th><th>Price</th><th>Actions</th></tr>
+        {% for img in images %}
+        <tr>
+            <td>{{ img.id }}</td>
+            <td><img src="/uploads/{{ img.image }}" alt="{{ img.title }}" width="120"></td>
+            <td>{{ img.title }}</td>
+            <td>{{ img.category }}</td>
+            <td>{{ img.price }}</td>
+            <td>
+                <a href="/admin/images/edit/{{ img.id }}">Edit</a>
+                <form action="/admin/images/delete/{{ img.id }}" method="post" style="display:inline">
+                    <button type="submit" onclick="return confirm('Delete this image?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

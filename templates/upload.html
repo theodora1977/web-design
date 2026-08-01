@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Upload Dress</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+  </head>
+  <body>
+    <main>
+      <h2>Upload a New Dress</h2>
+      <form action="/upload" method="post" enctype="multipart/form-data">
+        <label>Title:<br><input type="text" name="title" required></label><br><br>
+        <label>Category:<br><input type="text" name="category" required></label><br><br>
+        <label>Price:<br><input type="number" name="price" step="0.01" required></label><br><br>
+        <label>Description:<br><textarea name="description" rows="4"></textarea></label><br><br>
+        <label>Image:<br><input type="file" name="image" accept="image/*" required></label><br><br>
+        <button type="submit">Upload</button>
+      </form>
+    </main>
+  </body>
+</html>

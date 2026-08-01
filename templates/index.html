@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+  <section class="hero">
+    <h1>Beautiful, made-for-you tailoring</h1>
+    <p>Quality ankara designs and bespoke tailoring — ST STITCHES EMPIRE.</p>
+    <p><a class="btn" href="/services">View Services</a></p>
+  </section>
+
+  <section>
+    <h2>Featured Pieces</h2>
+    <div class="gallery-grid">
+      {% for item in gallery %}
+        <div>
+          <a href="/gallary"><img src="/uploads/{{ item.image }}" alt="{{ item.title }}"></a>
+          <div class="small">{{ item.title }} — ₦{{ item.price }}</div>
+        </div>
+      {% else %}
+        <div class="card">No featured pieces yet</div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section style="margin-top:1.25rem">
+    <h2>Popular Services</h2>
+    <div class="card-grid">
+      {% for s in services %}
+        <div class="card">
+          <h3>{{ s.name }}</h3>
+          <p class="small">{{ s.description }}</p>
+          <div class="small">Price: ₦{{ s.price }}</div>
+        </div>
+      {% else %}
+        <div class="card">No services yet</div>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

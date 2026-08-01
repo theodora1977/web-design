@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Services - ST STITCHES EMPIRE</title>
+</head>
+<body>
+    <h1>Services</h1>
+    <a href="/admin/dashboard">Back to Dashboard</a>
+    <h2>Add Service</h2>
+    <form action="/admin/services/add" method="post">
+        <label>Name:<br><input type="text" name="name" required></label><br>
+        <label>Description:<br><textarea name="description"></textarea></label><br>
+        <label>Price:<br><input type="number" step="0.01" name="price" required></label><br>
+        <button type="submit">Add</button>
+    </form>
+
+    <h2>Existing Services</h2>
+    <table border="1" cellpadding="6">
+        <tr><th>ID</th><th>Name</th><th>Description</th><th>Price</th><th>Actions</th></tr>
+        {% for s in services %}
+        <tr>
+            <td>{{ s.id }}</td>
+            <td>{{ s.name }}</td>
+            <td>{{ s.description }}</td>
+            <td>{{ s.price }}</td>
+            <td>
+                <a href="/admin/services/edit/{{ s.id }}">Edit</a>
+                <form action="/admin/services/delete/{{ s.id }}" method="post" style="display:inline">
+                    <button type="submit" onclick="return confirm('Delete this service?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

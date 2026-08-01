@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Reviews</h1>
+  <div class="card-grid">
+    {% for r in reviews %}
+      <div class="card">
+        <strong>{{ r.name or 'Guest' }}</strong>
+        <p class="small">{{ r.comment }}</p>
+      </div>
+    {% else %}
+      <div class="card">No reviews yet</div>
+    {% endfor %}
+  </div>
+{% endblock %}

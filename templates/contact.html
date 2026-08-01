@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Contact</h1>
+  <p class="small">Visit us at Ebonyi Paint Road or call 0903426669.</p>
+  <form class="contact-form" method="post" action="/contact/send">
+    <input name="name" placeholder="Your name" required>
+    <input name="email" placeholder="Email" type="email" required>
+    <textarea name="message" rows="4" placeholder="Message"></textarea>
+    <button class="btn" type="submit">Send</button>
+  </form>
+{% endblock %}

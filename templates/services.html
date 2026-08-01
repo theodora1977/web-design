@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Services</h1>
+  <div class="card-grid">
+    {% for s in services %}
+      <div class="card">
+        <h3>{{ s.name }}</h3>
+        <p class="small">{{ s.description }}</p>
+        <div class="small">Price: ₦{{ s.price }}</div>
+      </div>
+    {% else %}
+      <div class="card">No services yet</div>
+    {% endfor %}
+  </div>
+{% endblock %}

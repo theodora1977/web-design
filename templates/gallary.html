@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Gallary</h1>
+  <p class="small">A selection of recent pieces.</p>
+  <div class="gallery-grid">
+    {% for item in gallery %}
+      <img src="/uploads/{{ item.image }}" alt="{{ item.title }}">
+    {% else %}
+      <div class="card">No images yet</div>
+    {% endfor %}
+  </div>
+{% endblock %}
