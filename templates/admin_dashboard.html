@@ -1,18 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Admin Dashboard - ST STITCHES EMPIRE</title>
-</head>
-<body>
+{% extends 'admin_base.html' %}
+{% block content %}
+  <div class="admin-card">
     <h1>Admin Dashboard</h1>
     <p>Welcome, {{ user.username }}</p>
-    <ul>
-        <li><a href="/admin/images">Manage Images</a></li>
-        <li><a href="/admin/services">Manage Services</a></li>
-        <li><a href="/admin/reviews">View Reviews</a></li>
-        <li><a href="/admin/appointments">View Appointments</a></li>
-        <li><a href="/admin/logout">Logout</a></li>
-    </ul>
-    <footer>ST STITCHES EMPIRE — EBONYI PAINT ROAD — 0903426669</footer>
-</body>
-</html>
+  </div>
+
+  <div class="admin-card">
+    <h2>Quick Links</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-top:1rem;">
+      <a class="admin-button" href="/admin/images">Manage Images</a>
+      <a class="admin-button" href="/admin/services">Manage Services</a>
+      <a class="admin-button" href="/admin/reviews">View Reviews</a>
+      <a class="admin-button" href="/admin/appointments">View Appointments</a>
+    </div>
+  </div>
+{% endblock %}

@@ -1,27 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Reviews - ST STITCHES EMPIRE</title>
-</head>
-<body>
+{% extends 'admin_base.html' %}
+{% block content %}
+  <div class="admin-card">
     <h1>Customer Reviews</h1>
-    <a href="/admin/dashboard">Back to Dashboard</a>
-    <table border="1" cellpadding="6">
-        <tr><th>ID</th><th>Name</th><th>Email</th><th>Rating</th><th>Message</th><th>Actions</th></tr>
-        {% for r in reviews %}
-        <tr>
-            <td>{{ r.id }}</td>
-            <td>{{ r.reviewer_name }}</td>
-            <td>{{ r.reviewer_email }}</td>
-            <td>{{ r.rating }}</td>
-            <td>{{ r.message }}</td>
-            <td>
-                <form action="/admin/reviews/delete/{{ r.id }}" method="post" style="display:inline">
-                    <button type="submit" onclick="return confirm('Delete review?')">Delete</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
+    <a class="admin-button" href="/admin/dashboard">Back to Dashboard</a>
+  </div>
+
+  <div class="admin-card">
+    <table class="admin-table">
+      <tr><th>ID</th><th>Name</th><th>Email</th><th>Rating</th><th>Message</th><th>Actions</th></tr>
+      {% for r in reviews %}
+      <tr>
+          <td>{{ r.id }}</td>
+          <td>{{ r.reviewer_name }}</td>
+          <td>{{ r.reviewer_email }}</td>
+          <td>{{ r.rating }}</td>
+          <td>{{ r.message }}</td>
+          <td>
+              <form action="/admin/reviews/delete/{{ r.id }}" method="post" style="display:inline">
+                  <button class="admin-button" type="submit" onclick="return confirm('Delete review?')">Delete</button>
+              </form>
+          </td>
+      </tr>
+      {% endfor %}
     </table>
-</body>
-</html>
+  </div>
+{% endblock %}

@@ -33,6 +33,30 @@ def authenticate_user(db, username: str, password: str):
     return user
 
 
+@router.get('/signup')
+def signup_page(request: Request):
+    return templates.TemplateResponse(request, 'signup.html', {"request": request})
+
+
+@router.post('/signup')
+def signup(request: Request, username: str = Form(...), password: str = Form(...), confirm_password: str = Form(...)):
+    if password != confirm_password:
+        return templates.TemplateResponse(request, 'signup.html', {"request": request, "error": "Passwords do not match."})
+
+    db = SessionLocal()
+    try:
+        existing = db.query(User).filter(User.username == username).first()
+        if existing:
+            return templates.TemplateResponse(request, 'signup.html', {"request": request, "error": "Username already taken."})
+        user = User(username=username, hashed_password=get_password_hash(password), is_admin=True)
+        db.add(user)
+        db.commit()
+    finally:
+        db.close()
+
+    return RedirectResponse(url='/admin/login', status_code=HTTP_302_FOUND)
+
+
 @router.get('/admin/login')
 def login_page(request: Request):
     return templates.TemplateResponse(request, 'login.html', {"request": request})

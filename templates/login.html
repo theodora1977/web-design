@@ -1,18 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Admin Login - ST STITCHES EMPIRE</title>
-</head>
-<body>
+{% extends 'admin_base.html' %}
+{% block content %}
+  <div class="admin-card" style="max-width:520px;margin:auto;">
     <h2>ST STITCHES EMPIRE — Admin Login</h2>
     {% if error %}
-    <p style="color:red">{{ error }}</p>
+      <p style="color:#b81d5c">{{ error }}</p>
     {% endif %}
     <form action="/admin/login" method="post">
-        <label>Username:<br><input type="text" name="username" required></label><br><br>
-        <label>Password:<br><input type="password" name="password" required></label><br><br>
-        <button type="submit">Login</button>
+      <div style="margin-bottom:1rem;">
+        <label style="display:block; margin-bottom:.5rem;">Username:</label>
+        <input type="text" name="username" required>
+      </div>
+      <div style="margin-bottom:1rem;">
+        <label style="display:block; margin-bottom:.5rem;">Password:</label>
+        <input type="password" name="password" required>
+      </div>
+      <button class="admin-button" type="submit">Login</button>
     </form>
-    <p>Brand: ST STITCHES EMPIRE — EBONYI PAINT ROAD — 0903426669</p>
-</body>
-</html>
+  </div>
+{% endblock %}

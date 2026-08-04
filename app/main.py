@@ -1,5 +1,5 @@
 ﻿from fastapi import FastAPI, UploadFile, File, Form, Request, Depends
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import shutil
@@ -41,6 +41,11 @@ from app.reviews import router as reviews_router
 app.include_router(reviews_router)
 from app.appointments import router as appointments_router
 app.include_router(appointments_router)
+
+
+@app.get('/admin')
+async def admin_root():
+    return RedirectResponse(url='/admin/login')
 
 
 @app.get('/admin/dashboard')

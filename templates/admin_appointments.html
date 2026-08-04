@@ -1,28 +1,28 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Appointments - ST STITCHES EMPIRE</title>
-</head>
-<body>
+{% extends 'admin_base.html' %}
+{% block content %}
+  <div class="admin-card">
     <h1>Appointments</h1>
-    <a href="/admin/dashboard">Back to Dashboard</a>
-    <table border="1" cellpadding="6">
-        <tr><th>ID</th><th>Name</th><th>Email</th><th>Service</th><th>When</th><th>Notes</th><th>Actions</th></tr>
-        {% for a in appointments %}
-        <tr>
-            <td>{{ a.id }}</td>
-            <td>{{ a.customer_name }}</td>
-            <td>{{ a.customer_email }}</td>
-            <td>{{ a.service.name if a.service else '—' }}</td>
-            <td>{{ a.appointment_datetime }}</td>
-            <td>{{ a.notes }}</td>
-            <td>
-                <form action="/admin/appointments/delete/{{ a.id }}" method="post" style="display:inline">
-                    <button type="submit" onclick="return confirm('Delete appointment?')">Delete</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
+    <a class="admin-button" href="/admin/dashboard">Back to Dashboard</a>
+  </div>
+
+  <div class="admin-card">
+    <table class="admin-table">
+      <tr><th>ID</th><th>Name</th><th>Email</th><th>Service</th><th>When</th><th>Notes</th><th>Actions</th></tr>
+      {% for a in appointments %}
+      <tr>
+          <td>{{ a.id }}</td>
+          <td>{{ a.customer_name }}</td>
+          <td>{{ a.customer_email }}</td>
+          <td>{{ a.service.name if a.service else '—' }}</td>
+          <td>{{ a.appointment_datetime }}</td>
+          <td>{{ a.notes }}</td>
+          <td>
+              <form action="/admin/appointments/delete/{{ a.id }}" method="post" style="display:inline">
+                  <button class="admin-button" type="submit" onclick="return confirm('Delete appointment?')">Delete</button>
+              </form>
+          </td>
+      </tr>
+      {% endfor %}
     </table>
-</body>
-</html>
+  </div>
+{% endblock %}
