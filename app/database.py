@@ -1,5 +1,6 @@
 import os
 import tempfile
+from pathlib import Path
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
@@ -32,6 +33,27 @@ engine = create_engine(
     DATABASE_URL,
     connect_args=connect_args
 )
+
+
+def ensure_sqlite_path(url):
+    if not url.startswith('sqlite'):
+        return
+
+    path = url.replace('sqlite:///', '', 1)
+    if not path or path.startswith('/') and len(path) == 1:
+        return
+
+    if path.startswith('/'):
+        db_path = path
+    else:
+        db_path = os.path.abspath(path)
+
+    directory = os.path.dirname(db_path)
+    if directory:
+        os.makedirs(directory, exist_ok=True)
+
+
+ensure_sqlite_path(DATABASE_URL)
 
 SessionLocal = sessionmaker(
     autocommit=False,

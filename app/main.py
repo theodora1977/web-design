@@ -4,15 +4,21 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import shutil
 import os
+import logging
 
 # Database imports
 from app.database import engine, SessionLocal
 from app.models import Base, Gallery
 
 # Create all database tables
-Base.metadata.create_all(bind=engine)
+try:
+    Base.metadata.create_all(bind=engine)
+except Exception:
+    logging.exception("Database initialization failed during startup")
 
 app = FastAPI()
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 # Session middleware for simple form-based admin sessions
 from starlette.middleware.sessions import SessionMiddleware
@@ -59,6 +65,10 @@ async def home(request: Request):
     try:
         featured = db.query(Gallery).order_by(Gallery.id.desc()).limit(6).all()
         services = db.query(Service).order_by(Service.id.asc()).limit(4).all()
+    except Exception:
+        logger.exception("Failed to load homepage data")
+        featured = []
+        services = []
     finally:
         db.close()
     return templates.TemplateResponse(request, "index.html", {"request": request, "gallery": featured, "services": services})
@@ -78,6 +88,9 @@ async def gallary(request: Request):
     db = SessionLocal()
     try:
         items = db.query(Gallery).order_by(Gallery.id.desc()).limit(48).all()
+    except Exception:
+        logger.exception("Failed to load gallery data")
+        items = []
     finally:
         db.close()
     return templates.TemplateResponse(request, 'gallary.html', {"request": request, "gallery": items})
@@ -90,6 +103,9 @@ async def public_services(request: Request):
     db = SessionLocal()
     try:
         services = db.query(Service).all()
+    except Exception:
+        logger.exception("Failed to load services data")
+        services = []
     finally:
         db.close()
     return templates.TemplateResponse(request, 'services.html', {"request": request, "services": services})
@@ -111,6 +127,9 @@ async def public_reviews(request: Request):
     db = SessionLocal()
     try:
         reviews = db.query(Review).order_by(Review.id.desc()).all()
+    except Exception:
+        logger.exception("Failed to load reviews data")
+        reviews = []
     finally:
         db.close()
     return templates.TemplateResponse(request, 'reviews.html', {"request": request, "reviews": reviews})
