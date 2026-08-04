@@ -5,13 +5,21 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 
 
 def resolve_database_url(database_url=None):
-    selected_url = database_url or os.getenv('DATABASE_URL') or 'sqlite:///./tailor.db'
+    selected_url = database_url or os.getenv('DATABASE_URL')
 
-    if selected_url == 'sqlite:///./tailor.db' and (os.getenv('RENDER') or not os.access(os.getcwd(), os.W_OK)):
+    if selected_url:
+        if selected_url == 'sqlite:///./tailor.db' and (
+            os.getenv('RENDER') or os.getenv('HEROKU') or os.getenv('RAILWAY') or os.getenv('PORT') or not os.access(os.getcwd(), os.W_OK)
+        ):
+            fallback_path = os.path.join(tempfile.gettempdir(), 'tailor.db')
+            return f'sqlite:///{fallback_path}'
+        return selected_url
+
+    if os.getenv('RENDER') or os.getenv('HEROKU') or os.getenv('RAILWAY') or os.getenv('PORT'):
         fallback_path = os.path.join(tempfile.gettempdir(), 'tailor.db')
         return f'sqlite:///{fallback_path}'
 
-    return selected_url
+    return 'sqlite:///./tailor.db'
 
 
 DATABASE_URL = resolve_database_url()

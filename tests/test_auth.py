@@ -6,12 +6,31 @@ os.environ.setdefault("DATABASE_URL", "sqlite:///{0}".format(os.path.join(tempfi
 
 from fastapi.testclient import TestClient
 
-from app.database import Base, engine, SessionLocal
+from app.database import Base, engine, SessionLocal, resolve_database_url
 from app.main import app
 from app.models import User
 
 
 class AuthFlowTests(unittest.TestCase):
+    def test_resolve_database_url_falls_back_for_hosted_env(self):
+        original_render = os.environ.get("RENDER")
+        original_port = os.environ.get("PORT")
+        os.environ["RENDER"] = "true"
+        os.environ.pop("PORT", None)
+        try:
+            resolved = resolve_database_url("sqlite:///./tailor.db")
+        finally:
+            if original_render is None:
+                os.environ.pop("RENDER", None)
+            else:
+                os.environ["RENDER"] = original_render
+            if original_port is None:
+                os.environ.pop("PORT", None)
+            else:
+                os.environ["PORT"] = original_port
+
+        self.assertTrue(resolved.startswith("sqlite:///"))
+        self.assertIn("temp", resolved.lower())
     def setUp(self):
         Base.metadata.drop_all(bind=engine)
         Base.metadata.create_all(bind=engine)
