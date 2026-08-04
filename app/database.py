@@ -1,8 +1,20 @@
 import os
+import tempfile
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL = os.getenv('DATABASE_URL', 'sqlite:///./tailor.db')
+
+def resolve_database_url(database_url=None):
+    selected_url = database_url or os.getenv('DATABASE_URL') or 'sqlite:///./tailor.db'
+
+    if selected_url == 'sqlite:///./tailor.db' and (os.getenv('RENDER') or not os.access(os.getcwd(), os.W_OK)):
+        fallback_path = os.path.join(tempfile.gettempdir(), 'tailor.db')
+        return f'sqlite:///{fallback_path}'
+
+    return selected_url
+
+
+DATABASE_URL = resolve_database_url()
 
 connect_args = {}
 if DATABASE_URL.startswith('sqlite'):

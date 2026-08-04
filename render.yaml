@@ -9,4 +9,4 @@ services:
     healthCheckPath: /
     envVars:
       - key: DATABASE_URL
-        value: sqlite:///./tailor.db
+        value: sqlite:////tmp/tailor.db
